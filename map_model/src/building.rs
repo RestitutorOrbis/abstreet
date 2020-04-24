@@ -23,11 +23,12 @@ pub struct FrontPath {
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 pub struct OffstreetParking {
-    pub name: String,
-    pub num_stalls: usize,
+    // If filled out, this is a public parking garage with a name. If not, it's private parking
+    // just for trips to/from this building.
+    pub public_garage_name: Option<String>,
+    pub num_spots: usize,
     // Goes from the building to the driving lane
     pub driveway_line: Line,
-    // Guaranteed to be at least 7m before the end of the lane
     pub driving_pos: Position,
 }
 
@@ -44,6 +45,8 @@ pub struct Building {
     pub amenities: BTreeSet<(String, String)>,
 
     pub front_path: FrontPath,
+    // Every building can't have OffstreetParking, because the nearest usable driving lane (not in
+    // a parking blackhole) might be far away
     pub parking: Option<OffstreetParking>,
 }
 

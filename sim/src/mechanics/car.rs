@@ -52,16 +52,9 @@ impl Car {
         CarState::Crossing(TimeInterval::new(start_time, start_time + dt), dist_int)
     }
 
-    pub fn get_draw_car(
-        &self,
-        front: Distance,
-        now: Time,
-        map: &Map,
-        transit: &TransitSimState,
-    ) -> DrawCarInput {
-        assert!(front >= Distance::ZERO);
-        // This goes from back to front
-        let raw_body = if front >= self.vehicle.length {
+    // This goes from back to front
+    fn get_raw_body(&self, front: Distance, map: &Map) -> PolyLine {
+        if front >= self.vehicle.length {
             self.router
                 .head()
                 .exact_slice(front - self.vehicle.length, front, map)
@@ -94,7 +87,17 @@ impl Car {
             }
 
             PolyLine::new(result)
-        };
+        }
+    }
+
+    pub fn get_draw_car(
+        &self,
+        front: Distance,
+        now: Time,
+        map: &Map,
+        transit: &TransitSimState,
+    ) -> DrawCarInput {
+        assert!(front >= Distance::ZERO);
 
         let body = match self.state {
             CarState::Unparking(_, ref spot, ref time_int)
@@ -117,27 +120,48 @@ impl Car {
                         } else {
                             -width
                         };
-                        raw_body.shift_right(shift).unwrap()
+                        self.get_raw_body(front, map).shift_right(shift).unwrap()
                     }
                     ParkingSpot::Offstreet(b, _) => {
-                        // Append the car's polyline on the street with the driveway
                         let driveway = &map.get_b(*b).parking.as_ref().unwrap().driveway_line;
-                        let full_piece = if is_parking {
-                            raw_body.extend(driveway.reverse().to_polyline())
+
+                        if is_parking {
+                            // We're already on the road, so this must exist.
+                            let raw_body = self.get_raw_body(front, map);
+                            // Append the car's polyline on the street with the driveway
+                            let full_piece = raw_body.extend(driveway.reverse().to_polyline());
+                            // Then make the car creep along the added length of the driveway (which
+                            // could be really short)
+                            let creep_along = driveway.length() * percent_time;
+                            // TODO Ideally the car would slowly (dis)appear into the building, but
+                            // some stuff downstream needs to understand that the windows and such
+                            // will get cut off. :)
+                            full_piece.exact_slice(creep_along, creep_along + self.vehicle.length)
                         } else {
-                            driveway.to_polyline().extend(raw_body).reversed()
-                        };
-                        // Then make the car creep along the added length of the driveway (which
-                        // could be really short)
-                        let creep_along = driveway.length() * percent_time;
-                        // TODO Ideally the car would slowly (dis)appear into the building, but
-                        // some stuff downstream needs to understand that the windows and such will
-                        // get cut off. :)
-                        full_piece.exact_slice(creep_along, creep_along + self.vehicle.length)
+                            // We need to conjure self.vehicle.length into existence for the
+                            // downstream rendering.
+                            // But...
+                            // - The driveway could be really absurdly short
+                            // - We might be too close to the start of the lane
+                            // - We might be too close to the end of the lane
+                            // TODO Dealing with the geometry of the road is hard. For now, let's
+                            // just use the driveway and make downstream rendering handle really
+                            // small vehicles. :\
+                            if driveway.length() > self.vehicle.length {
+                                let creep_along =
+                                    (driveway.length() - self.vehicle.length) * percent_time;
+                                driveway
+                                    .to_polyline()
+                                    .exact_slice(creep_along, creep_along + self.vehicle.length)
+                            } else {
+                                // TODO Ahhh
+                                driveway.to_polyline()
+                            }
+                        }
                     }
                 }
             }
-            _ => raw_body,
+            _ => self.get_raw_body(front, map),
         };
 
         DrawCarInput {
