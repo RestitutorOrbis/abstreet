@@ -1,0 +1,5 @@
+(function() {var implementors = {};
+implementors["geom"] = [{"text":"impl Sub&lt;Distance&gt; for Distance","synthetic":false,"types":[]},{"text":"impl Sub&lt;Duration&gt; for Duration","synthetic":false,"types":[]},{"text":"impl Sub&lt;Speed&gt; for Speed","synthetic":false,"types":[]},{"text":"impl Sub&lt;Duration&gt; for Time","synthetic":false,"types":[]},{"text":"impl Sub&lt;Time&gt; for Time","synthetic":false,"types":[]}];
+implementors["map_model"] = [{"text":"impl&lt;O:&nbsp;Into&lt;EnumSet&lt;PathConstraints&gt;&gt;&gt; Sub&lt;O&gt; for PathConstraints","synthetic":false,"types":[]}];
+implementors["sim"] = [{"text":"impl Sub&lt;Duration&gt; for AnyTime","synthetic":false,"types":[]},{"text":"impl Sub&lt;AnyTime&gt; for AnyTime","synthetic":false,"types":[]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

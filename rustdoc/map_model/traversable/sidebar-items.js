@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Traversable","Either a lane or a turn, where most movement happens."]],"struct":[["Position","Represents a specific point some distance along a lane."]]});

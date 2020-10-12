@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["prebake",""],["prebake_all",""]],"struct":[["Challenge",""],["ChallengesPicker",""],["HighScore",""]]});

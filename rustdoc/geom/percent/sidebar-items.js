@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Percent","Most of the time, [0, 1]. But some callers may go outside this range."]]});

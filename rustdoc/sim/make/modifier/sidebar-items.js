@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["ScenarioModifier","Transforms an existing Scenario before instantiating it."]],"fn":[["cancel_people",""],["repeat_days",""]]});

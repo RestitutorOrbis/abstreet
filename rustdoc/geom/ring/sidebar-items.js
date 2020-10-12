@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Ring","Maybe a misnomer, but like a PolyLine, but closed."]]});
