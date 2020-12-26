@@ -1,4 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `widgetry_demo/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../widgetry_demo/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `widgetry_demo/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="alternate icon" type="image/png" href="../../favicon-16x16.png">
+<link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../widgetry_demo/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
                 <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
@@ -377,6 +379,10 @@
 <span id="376">376</span>
 <span id="377">377</span>
 <span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashSet</span>;
 
@@ -387,18 +393,26 @@
 <span class="kw">use</span> <span class="ident">widgetry</span>::{
     <span class="ident">lctrl</span>, <span class="ident">Btn</span>, <span class="ident">Checkbox</span>, <span class="ident">Choice</span>, <span class="ident">Color</span>, <span class="ident">Drawable</span>, <span class="ident">EventCtx</span>, <span class="ident">Fill</span>, <span class="ident">GeomBatch</span>, <span class="ident">GfxCtx</span>,
     <span class="ident">HorizontalAlignment</span>, <span class="ident">Key</span>, <span class="ident">Line</span>, <span class="ident">LinePlot</span>, <span class="ident">Outcome</span>, <span class="ident">Panel</span>, <span class="ident">PersistentSplit</span>, <span class="ident">PlotOptions</span>, <span class="ident">Series</span>,
-    <span class="ident">Text</span>, <span class="ident">TextExt</span>, <span class="ident">Texture</span>, <span class="ident">UpdateType</span>, <span class="ident">VerticalAlignment</span>, <span class="ident">Widget</span>, <span class="ident">GUI</span>,
+    <span class="ident">SharedAppState</span>, <span class="ident">State</span>, <span class="ident">Text</span>, <span class="ident">TextExt</span>, <span class="ident">Texture</span>, <span class="ident">Transition</span>, <span class="ident">UpdateType</span>, <span class="ident">VerticalAlignment</span>,
+    <span class="ident">Widget</span>,
 };
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">main</span>() {
+    <span class="comment">// Use this to initialize logging.</span>
+    <span class="ident">abstutil</span>::<span class="ident">CmdArgs</span>::<span class="ident">new</span>().<span class="ident">done</span>();
+
     <span class="comment">// Control flow surrendered here. App implements State, which has an event handler and a draw</span>
     <span class="comment">// callback.</span>
     <span class="ident">widgetry</span>::<span class="ident">run</span>(<span class="ident">widgetry</span>::<span class="ident">Settings</span>::<span class="ident">new</span>(<span class="string">&quot;widgetry demo&quot;</span>), <span class="op">|</span><span class="ident">ctx</span><span class="op">|</span> {
-        <span class="ident">App</span>::<span class="ident">new</span>(<span class="ident">ctx</span>)
+        (<span class="ident">App</span> {}, <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">Demo</span>::<span class="ident">new</span>(<span class="ident">ctx</span>))])
     });
 }
 
-<span class="kw">struct</span> <span class="ident">App</span> {
+<span class="kw">struct</span> <span class="ident">App</span> {}
+
+<span class="kw">impl</span> <span class="ident">SharedAppState</span> <span class="kw">for</span> <span class="ident">App</span> {}
+
+<span class="kw">struct</span> <span class="ident">Demo</span> {
     <span class="ident">controls</span>: <span class="ident">Panel</span>,
     <span class="ident">timeseries_panel</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">Duration</span>, <span class="ident">Panel</span>)<span class="op">&gt;</span>,
     <span class="ident">scrollable_canvas</span>: <span class="ident">Drawable</span>,
@@ -406,9 +420,9 @@
     <span class="ident">elapsed</span>: <span class="ident">Duration</span>,
 }
 
-<span class="kw">impl</span> <span class="ident">App</span> {
-    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">ctx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">EventCtx</span>) <span class="op">-&gt;</span> <span class="ident">App</span> {
-        <span class="ident">App</span> {
+<span class="kw">impl</span> <span class="ident">Demo</span> {
+    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">ctx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">EventCtx</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Demo</span> {
+        <span class="ident">Demo</span> {
             <span class="ident">controls</span>: <span class="ident">make_controls</span>(<span class="ident">ctx</span>),
             <span class="ident">timeseries_panel</span>: <span class="prelude-val">None</span>,
             <span class="ident">scrollable_canvas</span>: <span class="ident">setup_scrollable_canvas</span>(<span class="ident">ctx</span>),
@@ -417,14 +431,14 @@
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">make_timeseries_panel</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ctx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">EventCtx</span>) <span class="op">-&gt;</span> <span class="ident">Panel</span> {
+    <span class="kw">fn</span> <span class="ident">make_timeseries_panel</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ctx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">EventCtx</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Panel</span> {
         <span class="comment">// Make a table with 3 columns.</span>
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">col1</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">Line</span>(<span class="string">&quot;Time&quot;</span>).<span class="ident">draw</span>(<span class="ident">ctx</span>)];
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">col</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">Line</span>(<span class="string">&quot;Linear&quot;</span>).<span class="ident">draw</span>(<span class="ident">ctx</span>)];
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">col3</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">Line</span>(<span class="string">&quot;Quadratic&quot;</span>).<span class="ident">draw</span>(<span class="ident">ctx</span>)];
         <span class="kw">for</span> <span class="ident">s</span> <span class="kw">in</span> <span class="number">0</span>..(<span class="self">self</span>.<span class="ident">elapsed</span>.<span class="ident">inner_seconds</span>() <span class="kw">as</span> <span class="ident">usize</span>) {
             <span class="ident">col1</span>.<span class="ident">push</span>(
-                <span class="ident">Line</span>(<span class="ident">Duration</span>::<span class="ident">seconds</span>(<span class="ident">s</span> <span class="kw">as</span> <span class="ident">f64</span>).<span class="ident">to_string</span>())
+                <span class="ident">Line</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">Duration</span>::<span class="ident">seconds</span>(<span class="ident">s</span> <span class="kw">as</span> <span class="ident">f64</span>)))
                     .<span class="ident">secondary</span>()
                     .<span class="ident">draw</span>(<span class="ident">ctx</span>),
             );
@@ -497,44 +511,42 @@
         <span class="self">self</span>.<span class="ident">controls</span>.<span class="ident">replace</span>(
             <span class="ident">ctx</span>,
             <span class="string">&quot;stopwatch&quot;</span>,
-            <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Stopwatch: {}&quot;</span>, <span class="self">self</span>.<span class="ident">elapsed</span>)
-                .<span class="ident">draw_text</span>(<span class="ident">ctx</span>)
-                .<span class="ident">named</span>(<span class="string">&quot;stopwatch&quot;</span>),
+            <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Stopwatch: {}&quot;</span>, <span class="self">self</span>.<span class="ident">elapsed</span>).<span class="ident">draw_text</span>(<span class="ident">ctx</span>),
         );
     }
 }
 
-<span class="kw">impl</span> <span class="ident">GUI</span> <span class="kw">for</span> <span class="ident">App</span> {
-    <span class="kw">fn</span> <span class="ident">event</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ctx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">EventCtx</span>) {
+<span class="kw">impl</span> <span class="ident">State</span><span class="op">&lt;</span><span class="ident">App</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Demo</span> {
+    <span class="kw">fn</span> <span class="ident">event</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ctx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">EventCtx</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">App</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Transition</span><span class="op">&lt;</span><span class="ident">App</span><span class="op">&gt;</span> {
         <span class="comment">// Allow panning and zooming to work.</span>
         <span class="ident">ctx</span>.<span class="ident">canvas_movement</span>();
 
         <span class="comment">// This dispatches event handling to all of the widgets inside.</span>
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">controls</span>.<span class="ident">event</span>(<span class="ident">ctx</span>) {
-            <span class="ident">Outcome</span>::<span class="ident">Clicked</span>(<span class="ident">x</span>) <span class="op">=&gt;</span> <span class="kw">match</span> <span class="ident">x</span>.<span class="ident">as_ref</span>() {
+            <span class="ident">Outcome</span>::<span class="ident">Clicked</span>(<span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">x</span>.<span class="ident">as_ref</span>() {
                 <span class="comment">// These outcomes should probably be a custom enum per Panel, to be more</span>
                 <span class="comment">// typesafe.</span>
-                <span class="string">&quot;reset the stopwatch&quot;</span> <span class="op">=&gt;</span> {
+                <span class="string">&quot;reset the stopwatch&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
                     <span class="self">self</span>.<span class="ident">elapsed</span> <span class="op">=</span> <span class="ident">Duration</span>::<span class="ident">ZERO</span>;
                     <span class="self">self</span>.<span class="ident">redraw_stopwatch</span>(<span class="ident">ctx</span>);
                 }
-                <span class="string">&quot;generate new faces&quot;</span> <span class="op">=&gt;</span> {
+                <span class="string">&quot;generate new faces&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
                     <span class="self">self</span>.<span class="ident">scrollable_canvas</span> <span class="op">=</span> <span class="ident">setup_scrollable_canvas</span>(<span class="ident">ctx</span>);
                 }
-                <span class="string">&quot;adjust timer&quot;</span> <span class="op">=&gt;</span> {
+                <span class="string">&quot;adjust timer&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
                     <span class="kw">let</span> <span class="ident">offset</span>: <span class="ident">Duration</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">controls</span>.<span class="ident">persistent_split_value</span>(<span class="string">&quot;adjust timer&quot;</span>);
-                    <span class="self">self</span>.<span class="ident">elapsed</span> <span class="op">+=</span> <span class="ident">offset</span>;
+                    <span class="self">self</span>.<span class="ident">elapsed</span> <span class="op">+</span><span class="op">=</span> <span class="ident">offset</span>;
                     <span class="self">self</span>.<span class="ident">redraw_stopwatch</span>(<span class="ident">ctx</span>);
                 }
-                <span class="string">&quot;apply&quot;</span> <span class="op">=&gt;</span> {
+                <span class="string">&quot;apply&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
                     <span class="kw">let</span> (<span class="ident">v_align</span>, <span class="ident">h_align</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">controls</span>.<span class="ident">dropdown_value</span>(<span class="string">&quot;alignment&quot;</span>);
                     <span class="self">self</span>.<span class="ident">controls</span>.<span class="ident">align</span>(<span class="ident">v_align</span>, <span class="ident">h_align</span>);
                     <span class="kw">let</span> (<span class="ident">bg_texture</span>, <span class="ident">fg_texture</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">controls</span>.<span class="ident">dropdown_value</span>(<span class="string">&quot;texture&quot;</span>);
                     <span class="self">self</span>.<span class="ident">texture_demo</span> <span class="op">=</span> <span class="ident">setup_texture_demo</span>(<span class="ident">ctx</span>, <span class="ident">bg_texture</span>, <span class="ident">fg_texture</span>);
                 }
-                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;clicked: {:?}&quot;</span>, <span class="ident">x</span>),
+                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;clicked: {:?}&quot;</span>, <span class="ident">x</span>),
             },
-            <span class="kw">_</span> <span class="op">=&gt;</span> {}
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {}
         }
 
         <span class="comment">// An update event means that no keyboard/mouse input happened, but time has passed.</span>
@@ -543,7 +555,7 @@
         <span class="comment">// oddly for update events.)</span>
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">dt</span>) <span class="op">=</span> <span class="ident">ctx</span>.<span class="ident">input</span>.<span class="ident">nonblocking_is_update_event</span>() {
             <span class="ident">ctx</span>.<span class="ident">input</span>.<span class="ident">use_update_event</span>();
-            <span class="self">self</span>.<span class="ident">elapsed</span> <span class="op">+=</span> <span class="ident">dt</span>;
+            <span class="self">self</span>.<span class="ident">elapsed</span> <span class="op">+</span><span class="op">=</span> <span class="ident">dt</span>;
             <span class="self">self</span>.<span class="ident">redraw_stopwatch</span>(<span class="ident">ctx</span>);
         }
 
@@ -552,7 +564,7 @@
             <span class="kw">if</span> <span class="self">self</span>
                 .<span class="ident">timeseries_panel</span>
                 .<span class="ident">as_ref</span>()
-                .<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">dt</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="kw-2">*</span><span class="ident">dt</span> <span class="op">!=</span> <span class="self">self</span>.<span class="ident">elapsed</span>)
+                .<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">dt</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="kw-2">*</span><span class="ident">dt</span> <span class="op">!</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">elapsed</span>)
                 .<span class="ident">unwrap_or</span>(<span class="bool-val">true</span>)
             {
                 <span class="self">self</span>.<span class="ident">timeseries_panel</span> <span class="op">=</span> <span class="prelude-val">Some</span>((<span class="self">self</span>.<span class="ident">elapsed</span>, <span class="self">self</span>.<span class="ident">make_timeseries_panel</span>(<span class="ident">ctx</span>)));
@@ -564,8 +576,8 @@
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="kw">_</span>, <span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">p</span>)) <span class="op">=</span> <span class="self">self</span>.<span class="ident">timeseries_panel</span> {
             <span class="kw">match</span> <span class="ident">p</span>.<span class="ident">event</span>(<span class="ident">ctx</span>) {
                 <span class="comment">// No buttons in there</span>
-                <span class="ident">Outcome</span>::<span class="ident">Clicked</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
-                <span class="kw">_</span> <span class="op">=&gt;</span> {}
+                <span class="ident">Outcome</span>::<span class="ident">Clicked</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {}
             }
         }
 
@@ -574,9 +586,11 @@
         <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">controls</span>.<span class="ident">is_checked</span>(<span class="string">&quot;paused&quot;</span>) {
             <span class="ident">ctx</span>.<span class="ident">request_update</span>(<span class="ident">UpdateType</span>::<span class="ident">Game</span>);
         }
+
+        <span class="ident">Transition</span>::<span class="ident">Keep</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">draw</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">g</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">GfxCtx</span>) {
+    <span class="kw">fn</span> <span class="ident">draw</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">g</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">GfxCtx</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">App</span>) {
         <span class="ident">g</span>.<span class="ident">clear</span>(<span class="ident">Color</span>::<span class="ident">BLACK</span>);
 
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">controls</span>.<span class="ident">is_checked</span>(<span class="string">&quot;Draw scrollable canvas&quot;</span>) {
@@ -593,7 +607,7 @@
     }
 }
 
-<span class="kw">fn</span> <span class="ident">setup_texture_demo</span>(<span class="ident">ctx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">EventCtx</span>, <span class="ident">bg_texture</span>: <span class="ident">Texture</span>, <span class="ident">fg_texture</span>: <span class="ident">Texture</span>) <span class="op">-&gt;</span> <span class="ident">Drawable</span> {
+<span class="kw">fn</span> <span class="ident">setup_texture_demo</span>(<span class="ident">ctx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">EventCtx</span>, <span class="ident">bg_texture</span>: <span class="ident">Texture</span>, <span class="ident">fg_texture</span>: <span class="ident">Texture</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Drawable</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">batch</span> <span class="op">=</span> <span class="ident">GeomBatch</span>::<span class="ident">new</span>();
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rect</span> <span class="op">=</span> <span class="ident">Polygon</span>::<span class="ident">rectangle</span>(<span class="number">100.0</span>, <span class="number">100.0</span>);
@@ -625,28 +639,26 @@
 
 <span class="comment">// This prepares a bunch of geometry (colored polygons) and uploads it to the GPU once. Then it can</span>
 <span class="comment">// be redrawn cheaply later.</span>
-<span class="kw">fn</span> <span class="ident">setup_scrollable_canvas</span>(<span class="ident">ctx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">EventCtx</span>) <span class="op">-&gt;</span> <span class="ident">Drawable</span> {
+<span class="kw">fn</span> <span class="ident">setup_scrollable_canvas</span>(<span class="ident">ctx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">EventCtx</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Drawable</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">batch</span> <span class="op">=</span> <span class="ident">GeomBatch</span>::<span class="ident">new</span>();
     <span class="ident">batch</span>.<span class="ident">push</span>(
         <span class="ident">Color</span>::<span class="ident">hex</span>(<span class="string">&quot;#4E30A6&quot;</span>),
         <span class="ident">Polygon</span>::<span class="ident">rounded_rectangle</span>(<span class="number">5000.0</span>, <span class="number">5000.0</span>, <span class="prelude-val">Some</span>(<span class="number">25.0</span>)),
     );
     <span class="comment">// SVG support using lyon and usvg. Map-space means don&#39;t scale for high DPI monitors.</span>
-    <span class="ident">batch</span>.<span class="ident">append</span>(
-        <span class="ident">GeomBatch</span>::<span class="ident">load_svg</span>(<span class="kw-2">&amp;</span><span class="ident">ctx</span>.<span class="ident">prerender</span>, <span class="string">&quot;system/assets/pregame/logo.svg&quot;</span>)
-            .<span class="ident">translate</span>(<span class="number">300.0</span>, <span class="number">300.0</span>),
-    );
+    <span class="ident">batch</span>
+        .<span class="ident">append</span>(<span class="ident">GeomBatch</span>::<span class="ident">load_svg</span>(<span class="ident">ctx</span>, <span class="string">&quot;system/assets/pregame/logo.svg&quot;</span>).<span class="ident">translate</span>(<span class="number">300.0</span>, <span class="number">300.0</span>));
     <span class="comment">// Text rendering also goes through lyon and usvg.</span>
     <span class="ident">batch</span>.<span class="ident">append</span>(
         <span class="ident">Text</span>::<span class="ident">from</span>(<span class="ident">Line</span>(<span class="string">&quot;Awesome vector text thanks to usvg and lyon&quot;</span>).<span class="ident">fg</span>(<span class="ident">Color</span>::<span class="ident">hex</span>(<span class="string">&quot;#DF8C3D&quot;</span>)))
-            .<span class="ident">render_to_batch</span>(<span class="kw-2">&amp;</span><span class="ident">ctx</span>.<span class="ident">prerender</span>)
+            .<span class="ident">render_autocropped</span>(<span class="ident">ctx</span>)
             .<span class="ident">scale</span>(<span class="number">2.0</span>)
             .<span class="ident">centered_on</span>(<span class="ident">Pt2D</span>::<span class="ident">new</span>(<span class="number">600.0</span>, <span class="number">500.0</span>))
-            .<span class="ident">rotate</span>(<span class="ident">Angle</span>::<span class="ident">new_degs</span>(<span class="op">-</span><span class="number">30.0</span>)),
+            .<span class="ident">rotate</span>(<span class="ident">Angle</span>::<span class="ident">degrees</span>(<span class="op">-</span><span class="number">30.0</span>)),
     );
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rng</span> <span class="op">=</span> <span class="kw">if</span> <span class="macro">cfg</span><span class="macro">!</span>(<span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;wasm32&quot;</span>) {
-        <span class="ident">XorShiftRng</span>::<span class="ident">from_seed</span>([<span class="number">0</span>; <span class="number">16</span>])
+        <span class="ident">XorShiftRng</span>::<span class="ident">seed_from_u64</span>(<span class="number">0</span>)
     } <span class="kw">else</span> {
         <span class="ident">XorShiftRng</span>::<span class="ident">from_entropy</span>()
     };
@@ -666,7 +678,7 @@
     <span class="ident">batch</span>.<span class="ident">upload</span>(<span class="ident">ctx</span>)
 }
 
-<span class="kw">fn</span> <span class="ident">make_controls</span>(<span class="ident">ctx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">EventCtx</span>) <span class="op">-&gt;</span> <span class="ident">Panel</span> {
+<span class="kw">fn</span> <span class="ident">make_controls</span>(<span class="ident">ctx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">EventCtx</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Panel</span> {
     <span class="ident">Panel</span>::<span class="ident">new</span>(<span class="ident">Widget</span>::<span class="ident">col</span>(<span class="macro">vec</span><span class="macro">!</span>[
         <span class="ident">Text</span>::<span class="ident">from_multiline</span>(<span class="macro">vec</span><span class="macro">!</span>[
             <span class="ident">Line</span>(<span class="string">&quot;widgetry demo&quot;</span>).<span class="ident">small_heading</span>(),
@@ -752,8 +764,6 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;wasm32&quot;</span>)]</span>
 <span class="attribute">#[<span class="ident">wasm_bindgen</span>(<span class="ident">start</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">run</span>() {
-    <span class="ident">console_log</span>::<span class="ident">init_with_level</span>(<span class="ident">log</span>::<span class="ident">Level</span>::<span class="ident">Debug</span>).<span class="ident">unwrap</span>();
-
     <span class="ident">main</span>();
 }
 </pre></div>

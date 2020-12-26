@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["CapSimState","Some roads (grouped into zones) may have a cap on the number of vehicles that can enter per hour. CapSimState enforces this, just for driving trips."],["Zone",""]],"type":[["ZoneIdx",""]]});
+initSidebarItems({"enum":[["CapResult",""]],"struct":[["CapSimState","Dynamically limit driving trips that meet different conditions:"],["Zone",""]],"type":[["ZoneIdx",""]]});
