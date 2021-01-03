@@ -1,6 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `sim/src/sim/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../../favicon.svg">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `sim/src/sim/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings"></script><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../../favicon.svg">
 <link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png">
-<link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../sim/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
+<link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../sim/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
                 <a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
@@ -1018,6 +1018,7 @@
 <span id="1015">1015</span>
 <span id="1016">1016</span>
 <span id="1017">1017</span>
+<span id="1018">1018</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// This file has a jumbled mess of queries, setup, and mutating methods.</span>
 
@@ -1029,7 +1030,8 @@
 <span class="kw">use</span> <span class="ident">rand_xorshift</span>::<span class="ident">XorShiftRng</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
-<span class="kw">use</span> <span class="ident">abstutil</span>::{<span class="ident">prettyprint_usize</span>, <span class="ident">serialized_size_bytes</span>, <span class="ident">CmdArgs</span>, <span class="ident">MapName</span>, <span class="ident">Timer</span>};
+<span class="kw">use</span> <span class="ident">abstio</span>::<span class="ident">MapName</span>;
+<span class="kw">use</span> <span class="ident">abstutil</span>::{<span class="ident">prettyprint_usize</span>, <span class="ident">serialized_size_bytes</span>, <span class="ident">CmdArgs</span>, <span class="ident">Timer</span>};
 <span class="kw">use</span> <span class="ident">geom</span>::{<span class="ident">Distance</span>, <span class="ident">Duration</span>, <span class="ident">Speed</span>, <span class="ident">Time</span>};
 <span class="kw">use</span> <span class="ident">map_model</span>::{
     <span class="ident">BuildingID</span>, <span class="ident">BusRoute</span>, <span class="ident">IntersectionID</span>, <span class="ident">LaneID</span>, <span class="ident">Map</span>, <span class="ident">ParkingLotID</span>, <span class="ident">Path</span>, <span class="ident">PathConstraints</span>,
@@ -1771,13 +1773,13 @@
 <span class="comment">// Savestating</span>
 <span class="kw">impl</span> <span class="ident">Sim</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save_dir</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
-        <span class="ident">abstutil</span>::<span class="ident">path_all_saves</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">map_name</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">edits_name</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">run_name</span>)
+        <span class="ident">abstio</span>::<span class="ident">path_all_saves</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">map_name</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">edits_name</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">run_name</span>)
     }
 
     <span class="kw">fn</span> <span class="ident">save_path</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">base_time</span>: <span class="ident">Time</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
         <span class="comment">// If we wanted to be even more reproducible, we&#39;d encode RNG seed, version of code, etc,</span>
         <span class="comment">// but that&#39;s overkill right now.</span>
-        <span class="ident">abstutil</span>::<span class="ident">path_save</span>(
+        <span class="ident">abstio</span>::<span class="ident">path_save</span>(
             <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">map_name</span>,
             <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">edits_name</span>,
             <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">run_name</span>,
@@ -1823,21 +1825,21 @@
         }
 
         <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">save_path</span>(<span class="self">self</span>.<span class="ident">time</span>);
-        <span class="ident">abstutil</span>::<span class="ident">write_binary</span>(<span class="ident">path</span>.<span class="ident">clone</span>(), <span class="self">self</span>);
+        <span class="ident">abstio</span>::<span class="ident">write_binary</span>(<span class="ident">path</span>.<span class="ident">clone</span>(), <span class="self">self</span>);
 
         <span class="ident">path</span>
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">find_previous_savestate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">base_time</span>: <span class="ident">Time</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
-        <span class="ident">abstutil</span>::<span class="ident">find_prev_file</span>(<span class="self">self</span>.<span class="ident">save_path</span>(<span class="ident">base_time</span>))
+        <span class="ident">abstio</span>::<span class="ident">find_prev_file</span>(<span class="self">self</span>.<span class="ident">save_path</span>(<span class="ident">base_time</span>))
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">find_next_savestate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">base_time</span>: <span class="ident">Time</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
-        <span class="ident">abstutil</span>::<span class="ident">find_next_file</span>(<span class="self">self</span>.<span class="ident">save_path</span>(<span class="ident">base_time</span>))
+        <span class="ident">abstio</span>::<span class="ident">find_next_file</span>(<span class="self">self</span>.<span class="ident">save_path</span>(<span class="ident">base_time</span>))
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">load_savestate</span>(<span class="ident">path</span>: <span class="ident">String</span>, <span class="ident">timer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Timer</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Sim</span>, <span class="ident">String</span><span class="op">&gt;</span> {
-        <span class="ident">abstutil</span>::<span class="ident">maybe_read_binary</span>(<span class="ident">path</span>, <span class="ident">timer</span>)
+        <span class="ident">abstio</span>::<span class="ident">maybe_read_binary</span>(<span class="ident">path</span>, <span class="ident">timer</span>)
     }
 }
 

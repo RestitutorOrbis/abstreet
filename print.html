@@ -160,13 +160,13 @@ hit problems.</p>
 <p>Grab a pre-built binary release -- updated every Sunday, announced at
 <a href="http://old.reddit.com/r/abstreet">r/abstreet</a>:</p>
 <ul>
-<li><a href="https://github.com/dabreegster/abstreet/releases/download/v0.2.23/abstreet_windows_v0_2_23a.zip">Windows</a>
+<li><a href="https://github.com/dabreegster/abstreet/releases/download/v0.2.24/abstreet_windows_v0_2_24.zip">Windows</a>
 <ul>
 <li>Unzip the folder, then run <code>play_abstreet.bat</code>. You'll probably getting a
 warning about running software from an unknown publisher.</li>
 </ul>
 </li>
-<li><a href="https://github.com/dabreegster/abstreet/releases/download/v0.2.23/abstreet_mac_v0_2_23.zip">Mac</a>
+<li><a href="https://github.com/dabreegster/abstreet/releases/download/v0.2.24/abstreet_mac_v0_2_24.zip">Mac</a>
 <ul>
 <li>Unzip the directory, then run <code>play_abstreet.sh</code>.</li>
 <li>If you get an error about the developer unverified,
@@ -180,7 +180,7 @@ open terminal, <code>cd</code> to the directory you just unzipped. Then do:
 this as a Mac .app, to make this process simpler</li>
 </ul>
 </li>
-<li><a href="https://github.com/dabreegster/abstreet/releases/download/v0.2.23/abstreet_linux_v0_2_23.zip">Linux</a>
+<li><a href="https://github.com/dabreegster/abstreet/releases/download/v0.2.24/abstreet_linux_v0_2_24.zip">Linux</a>
 <ul>
 <li>Unzip the directory, then run <code>play_abstreet.sh</code>.</li>
 </ul>
@@ -864,7 +864,8 @@ glutin</li>
 </ul>
 <p>Common utilities:</p>
 <ul>
-<li><code>abstutil</code>: a grab-bag of IO helpers, timing and logging utilities, etc</li>
+<li><code>abstutil</code>: a grab-bag timing and logging utilities</li>
+<li><code>abstio</code>: Reading/writing files on native/web</li>
 <li><code>geom</code>: types for GPS and map-space points, lines, angles, polylines,
 polygons, circles, durations, speeds</li>
 </ul>
@@ -878,6 +879,7 @@ polygons, circles, durations, speeds</li>
 <li><code>osm_viewer</code>: a standalone tool to render OSM in detail</li>
 <li><code>fifteen_min</code>: a standalone tool to explore 15-minute neighborhoods</li>
 <li><code>popdat</code>: use census data to produce traffic simulation input</li>
+<li><code>traffic_signal_data</code>: manual timing overrides for some traffic signals</li>
 </ul>
 <h2><a class="header" href="#code-conventions" id="code-conventions">Code conventions</a></h2>
 <p>All code is automatically formatted using
@@ -1099,6 +1101,8 @@ long they've been waiting and why they're blocked.</li>
 for the total duration of trip 123, in seconds. The time is calculated
 assuming no delay at intersections, travelling full speed along every road,
 and using the primary mode for the entire trip (so just driving).</li>
+<li><strong>GET /data/all-trip-time-lower-bounds</strong>: The faster equivalent of calling
+<code>/data/trip-time-lower-bound</code> for every trip in the simulation.</li>
 </ul>
 </li>
 <li><strong>/map</strong>
@@ -2197,6 +2201,16 @@ spearheaded by Mateusz. Some of the ideas for next steps are to generate
 different types of people (students, workers), give them a set of activities
 with durations (go to school for 7 hours, 1 hour lunch break), and then further
 pick specfic buildings to travel to using more OSM tags.</p>
+<h3><a class="header" href="#census-based" id="census-based">Census Based</a></h3>
+<p>Trips are distributed based on where we believe people live. For the US, this
+information comes from the US Census. To take advantage of this model for areas
+outside the US, you'll need to add your data to the global <code>population_areas</code>
+file. This is one huge file that is shared across regions. This is more work up
+front, but makes adding individual cities relatively straight forward.</p>
+<h4><a class="header" href="#preparing-the-population_areas-file" id="preparing-the-population_areas-file">Preparing the <code>population_areas</code> file</a></h4>
+<p>See <code>popdat/scripts/build_population_areas.sh</code> for updating or adding to the
+existing population areas. Once rebuilt, you'll need to upload the file so that
+popdat can find it.</p>
 <h3><a class="header" href="#custom-import" id="custom-import">Custom import</a></h3>
 <p>If you have your own data, you can import it. The input format is JSON -- an
 example:</p>
@@ -2374,6 +2388,9 @@ all biking trip to driving:
 <li>If all else fails, use the scenario modifiers to bluntly cancel some
 percentage of all trips.</li>
 </ul>
+<p>A quick method for &quot;disabling&quot; buggy short roads is to use edit mode and close
+the lanes. This forces traffic to reroute around the problematic area, which
+might create other problems, but it can be useful.</p>
 <h2><a class="header" href="#fixing-data-used-in-simulation" id="fixing-data-used-in-simulation">Fixing data used in simulation</a></h2>
 <p>Give more examples of changesets.</p>
 <ul>
@@ -3649,6 +3666,14 @@ changes here.</p>
 <li>trip info panels now show more continuous progress along a route</li>
 <li>fixing inactive buttons stretching too much</li>
 </ul>
+<p>0.2.24</p>
+<ul>
+<li>variable traffic signal timing, thanks to Bruce</li>
+<li>15 min explorer: more walking options (require shoulders, change speed), more organized business search</li>
+<li>15 min santa: remember upzoning choices</li>
+<li>misc bugfixes and refactoring</li>
+<li>2021 roadmap drafted</li>
+</ul>
 <h1><a class="header" href="#references" id="references">References</a></h1>
 <h2><a class="header" href="#example-use-cases" id="example-use-cases">Example use cases</a></h2>
 <ul>
@@ -3845,9 +3870,9 @@ work and shop.</p>
 <ul>
 <li><a href="http://abstreet.s3-website.us-east-2.amazonaws.com/dev/santa">Play online</a>
 (slower and no music -- download below if possible)</li>
-<li><a href="https://github.com/dabreegster/abstreet/releases/download/v0.2.23/abstreet_windows_v0_2_23a.zip">Windows</a></li>
-<li><a href="https://github.com/dabreegster/abstreet/releases/download/v0.2.23/abstreet_mac_v0_2_23.zip">Mac</a></li>
-<li><a href="https://github.com/dabreegster/abstreet/releases/download/v0.2.23/abstreet_linux_v0_2_23.zip">Linux</a></li>
+<li><a href="https://github.com/dabreegster/abstreet/releases/download/v0.2.24/abstreet_windows_v0_2_24.zip">Windows</a></li>
+<li><a href="https://github.com/dabreegster/abstreet/releases/download/v0.2.24/abstreet_mac_v0_2_24.zip">Mac</a></li>
+<li><a href="https://github.com/dabreegster/abstreet/releases/download/v0.2.24/abstreet_linux_v0_2_24.zip">Linux</a></li>
 </ul>
 <p>Unzip, then run <code>santa.exe</code> or <code>santa</code>. No mobile/tablet support, sorry -- you need a keyboard.</p>
 <h2><a class="header" href="#faq" id="faq">FAQ</a></h2>
